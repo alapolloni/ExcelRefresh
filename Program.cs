@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Excel=Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Tools.Excel;
+using CommandLine;
+using CommandLine.Text;
 
 namespace XLRefresh
 {
@@ -35,8 +37,25 @@ namespace XLRefresh
 
 
 
+
+
         static void Main(string[] args)
         {
+            //http://commandline.codeplex.com/
+            var options = new Options();
+            if (CommandLine.Parser.Default.ParseArguments(args, options))
+            {
+                Console.WriteLine("options, in the IF");
+                // Values are available here
+                if (options.Verbose) Console.WriteLine("Filename: {0}", options.InputFile);
+            }
+            else {
+                Console.WriteLine("working ...");
+                Console.WriteLine("Press any key to close...");
+                Console.ReadLine();
+                return;
+            }
+
             string txtLocation = "C:/Users/aapollon/Documents/TPT/test xlrefresh/Sherpa_test - Copy.xlsx";
             object _missingValue = System.Reflection.Missing.Value;
             Microsoft.Office.Interop.Excel.Application excel = new Microsoft.Office.Interop.Excel.Application();
@@ -107,6 +126,29 @@ namespace XLRefresh
         }
 
     }
+
+// Define a class to receive parsed values
+class Options {
+  [Option('r', "read", Required = true,
+    HelpText = "Input file to be processed.")]
+  public string InputFile { get; set; }
+    
+  [Option('v', "verbose", DefaultValue = true,
+    HelpText = "Prints all messages to standard output.")]
+  public bool Verbose { get; set; }
+
+  [ParserState]
+  public IParserState LastParserState { get; set; }
+
+  [HelpOption]
+  public string GetUsage() {
+    return HelpText.AutoBuild(this,
+      (HelpText current) => HelpText.DefaultParsingErrorsHandler(this, current));
+  }
+}
+
+
+
 }
 
 
