@@ -99,6 +99,18 @@ namespace XLRefresh
             }
 
 
+            if (options.MacrosToRun != null)
+            {
+                Console.WriteLine("macro.");
+            }
+            else
+            {
+                Console.WriteLine("no macro."); 
+            }
+
+            Console.WriteLine("Macro Count:{0}", options.MacrosToRun.Count().ToString());
+            Console.WriteLine("Macro Count:{0}", options.MacrosToRun);
+
             string txtLocation = Path.GetFullPath(options.InputFile);
             if (options.Verbose) Console.WriteLine("Input File Full Path: {0}", txtLocation);
             if (! File.Exists(txtLocation))
@@ -127,6 +139,19 @@ namespace XLRefresh
             if (options.Querytables) { refreshQueryTables(theWorkbook); }
             if (options.Connections) { refreshConnection(theWorkbook); }
             if (options.Pivottables) { refreshPivots(theWorkbook); }
+            //
+            // Stoped Here. Testing this....
+            // XLRefreshC.exe -d  -f ..\..\..\Book1.xlsm -m  sheet1.showMessage
+            //
+            if (options.MacrosToRun != null)
+            {
+                foreach (string macro in options.MacrosToRun)
+                {
+                    Console.WriteLine("Macro :{0}", macro);
+                    excel.Run(macro);
+                }
+            }
+
 
             Console.WriteLine("shut it down!");
             excel.Calculate();
@@ -151,6 +176,9 @@ class Options {
   [Option('f', "file", Required = true,
     HelpText = "Input file to be processed.")]
   public string InputFile { get; set; }
+
+  [OptionArray('m', "Macro", HelpText = "The macros to run. Example: sheet1.someMacro")]
+    public string[] MacrosToRun { get; set; }
 
   [Option('d', "verbose", DefaultValue = false,
       HelpText = "Prints all messages to standard output.")]
