@@ -1,6 +1,8 @@
 #ExcelRefresh.exe (XLRefresh in C#)
 Command line utility to refresh Excel documents and their external connections, query tables and pivot tables.
 
+[Download ExcelRefresh.exe](https://github.com/alapolloni/ExcelRefresh/blob/master/ExcelRefresh.exe?raw=true)
+
 Example usage.  Use Window's Task Scheduler to run a .bat which updates Excel files and then copies them to a public location.  
 
 As of Excel 2013, the query table method seems to have been replaced with an external connection method.  Leaving the query table just in case.
