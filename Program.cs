@@ -98,19 +98,6 @@ namespace XLRefresh
                 return;
             }
 
-
-            if (options.MacrosToRun != null)
-            {
-                Console.WriteLine("macro.");
-            }
-            else
-            {
-                Console.WriteLine("no macro."); 
-            }
-
-            Console.WriteLine("Macro Count:{0}", options.MacrosToRun.Count().ToString());
-            Console.WriteLine("Macro Count:{0}", options.MacrosToRun);
-
             string txtLocation = Path.GetFullPath(options.InputFile);
             if (options.Verbose) Console.WriteLine("Input File Full Path: {0}", txtLocation);
             if (! File.Exists(txtLocation))
@@ -134,37 +121,40 @@ namespace XLRefresh
                                                             _missingValue,
                                                             _missingValue,
                                                             _missingValue);
+
             
             if (options.Visable) excel.Visible = true;
             if (options.Querytables) { refreshQueryTables(theWorkbook); }
             if (options.Connections) { refreshConnection(theWorkbook); }
             if (options.Pivottables) { refreshPivots(theWorkbook); }
             //
-            // Stoped Here. Testing this....
+            // To test:
             // XLRefreshC.exe -d  -f ..\..\..\Book1.xlsm -m  sheet1.showMessage
             //
             if (options.MacrosToRun != null)
             {
+                if (options.Verbose) Console.WriteLine("Macro Count:{0}", options.MacrosToRun.Count().ToString());
                 foreach (string macro in options.MacrosToRun)
                 {
-                    Console.WriteLine("Macro :{0}", macro);
+                    if (options.Verbose) Console.WriteLine("Macro :{0}", macro);
                     excel.Run(macro);
                 }
             }
+            else
+            {
+                if (options.Verbose) Console.WriteLine("no macro.");
+            }
 
 
-            Console.WriteLine("shut it down!");
+            if (options.Verbose) Console.WriteLine("shut it down!");
             excel.Calculate();
-            Console.WriteLine("calculated");
-            
-            
-
+            if (options.Verbose) Console.WriteLine("Excel calculated");
             theWorkbook.Save();
-            Console.WriteLine("saved");
+            if (options.Verbose) Console.WriteLine("Workbook saved");
             theWorkbook.Close(true);
-            Console.WriteLine("closed");
+            if (options.Verbose) Console.WriteLine("Workbook closed");
             excel.Quit();
-            Console.WriteLine("Quit");
+            if (options.Verbose) Console.WriteLine("Excel Quit");
             //Console.WriteLine("Press any key to close...");
             //Console.ReadLine();
             return;
@@ -177,7 +167,7 @@ class Options {
     HelpText = "Input file to be processed.")]
   public string InputFile { get; set; }
 
-  [OptionArray('m', "Macro", HelpText = "The macros to run. Example: sheet1.someMacro")]
+  [OptionArray('m', "Macros", HelpText = "The worksheet macros to run. Example: -m sheet1.someMacro (sheet2.otherMacro)")]
     public string[] MacrosToRun { get; set; }
 
   [Option('d', "verbose", DefaultValue = false,
@@ -193,11 +183,11 @@ class Options {
   public bool Pivottables { get; set; }
 
   [Option('q', "query-tables", DefaultValue = false,
-  HelpText = "Refresh query-tables.")]
+  HelpText = "Refresh query-tables. (Pre Excel 2013)")]
   public bool Querytables { get; set; }
 
   [Option('c', "connections", DefaultValue = false,
-        HelpText = "Refresh External connections.")]
+        HelpText = "Refresh External connections. (Excel 2013)")]
   public bool Connections { get; set; }
     
   [ValueList(typeof(List<string>), MaximumElements = 6)]

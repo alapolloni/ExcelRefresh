@@ -1,2 +1,5 @@
 bin/*
 obj/*
+*.swp
+ExcelRefresh.pdb
+
