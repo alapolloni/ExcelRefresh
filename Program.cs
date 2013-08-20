@@ -123,7 +123,7 @@ namespace XLRefresh
                                                             _missingValue);
 
             
-            if (options.Visable) excel.Visible = true;
+            if (options.Visible) excel.Visible = true;
             if (options.Querytables) { refreshQueryTables(theWorkbook); }
             if (options.Connections) { refreshConnection(theWorkbook); }
             if (options.Pivottables) { refreshPivots(theWorkbook); }
@@ -174,9 +174,9 @@ class Options {
       HelpText = "Prints all messages to standard output.")]
   public bool Verbose { get; set; }
 
-  [Option('v', "visable", DefaultValue = false,
-    HelpText = "Shows Excel.")]
-  public bool Visable { get; set; }
+  [Option('v', "visible", DefaultValue = false,
+    HelpText = "Shows Excel while update is running.")]
+  public bool Visible { get; set; }
 
   [Option('p', "pivot-tables", DefaultValue = false,
       HelpText = "Refresh Pivot-tables.")]
