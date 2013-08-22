@@ -25,8 +25,6 @@ As of Excel 2013, the query table method seems to have been replaced with an ext
 ##DONE##
  - The "DO you want to Save keeps popping up intermittently".  (DONE)
    - __Caused if an EXCEL.exe process is already running.__  Need to manually check in task manager and kill prior to running.
-   - http://stackoverflow.com/questions/2123158/c-sharp-winforms-how-to-load-an-image-then-wait-a-few-seconds-then-play-a-mp3
-  - which suggests application.doevents()
   - er...also added a Excel.Close(true). 
  - Add run --macros option (DONE)
  - ilmerge working (instead of distributing command.dll with .exe) (DONE)
@@ -34,9 +32,10 @@ As of Excel 2013, the query table method seems to have been replaced with an ext
      - "C:\Program Files (x86)\Microsoft\ILMerge\ilmerge.exe" XLRefreshC.exe /out:ExcelRefresh.exe /target:exe CommandLine.dll /targetplatform:"v4,C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0
     - make a makefile
  - upload to github.com
+ - Add do -a/--all option.
  
 ##TODO##
- - Add do -a/--all option.
+
 
 ##Contribution
 Based on Perl program/library originally written by [CTBROWN](http://cpansearch.perl.org/src/CTBROWN/Win32-Excel-Refresh-0.02/extras/XLRefresh.pl) 
