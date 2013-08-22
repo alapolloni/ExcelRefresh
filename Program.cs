@@ -124,9 +124,17 @@ namespace XLRefresh
 
             
             if (options.Visible) excel.Visible = true;
-            if (options.Querytables) { refreshQueryTables(theWorkbook); }
-            if (options.Connections) { refreshConnection(theWorkbook); }
-            if (options.Pivottables) { refreshPivots(theWorkbook); }
+
+            if (options.All)
+            {
+                theWorkbook.RefreshAll();
+            }
+            else
+            {
+                if (options.Querytables) { refreshQueryTables(theWorkbook); }
+                if (options.Connections) { refreshConnection(theWorkbook); }
+                if (options.Pivottables) { refreshPivots(theWorkbook); }
+            }
             //
             // To test:
             // XLRefreshC.exe -d  -f ..\..\..\Book1.xlsm -m  sheet1.showMessage
@@ -189,7 +197,11 @@ class Options {
   [Option('c', "connections", DefaultValue = false,
         HelpText = "Refresh External connections. (Excel 2013)")]
   public bool Connections { get; set; }
-    
+
+  [Option('a', "all", DefaultValue = false,
+        HelpText = "Refreshes all external data ranges and PivotTable reports in the specified workbook.")]
+  public bool All { get; set; }
+
   [ValueList(typeof(List<string>), MaximumElements = 6)]
     public IList<string> Items { get; set; }
 
